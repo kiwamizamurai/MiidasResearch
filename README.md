@@ -10,22 +10,19 @@
 
 ```
 MiidasResearch
-    ┣ 機械学習        : (.py)
+    ┣ MachineLearning        : (.py)
     ┃  ┣ Clustering
     ┃  ┃   ┗ K-Means
     ┃  ┣ DimensionReduction
     ┃  ┃   ┗ PCA
     ┃  ┣ Regression
-    ┃  ┃   ┣ ロジスティック
-    ┃  ┃   ┗ ソフトマックス
-    ┃  ┗ NeuralNetwork : データベースを扱うライブラリ
+    ┃  ┃   ┣ Logistic
+    ┃  ┃   ┗ Softmax
+    ┃  ┗ NeuralNetwork
     ┃      ┣ MLP
     ┃      ︙
     ┣ ipynb      : ノートブック型
-    ┃  ┣ 機械学習
-    ┃  ┗ database : データベースを扱うライブラリ
-    ┃      ┣ connectors
-    ┃      ︙
+    ┃  ┗ MachineLearning
     ┣ storage      : 貯蔵庫
     ┃  ┣ data       : データセット
     ┃  ┗ figure     : 出力画像    
