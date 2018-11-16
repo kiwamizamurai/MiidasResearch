@@ -18,14 +18,15 @@ MiidasResearch
     ┃  ┣ Regression
     ┃  ┃   ┣ Logistic
     ┃  ┃   ┗ Softmax
+    ┃  ┣ Optimizer          :　最適化
     ┃  ┗ NeuralNetwork
     ┃      ┣ MLP
     ┃      ︙
-    ┣ ipynb      : ノートブック型
+    ┣ ipynb             : ノートブック型
     ┃  ┗ MachineLearning
-    ┣ storage      : 貯蔵庫
-    ┃  ┣ data       : データセット
-    ┃  ┗ figure     : 出力画像    
+    ┣ storage           : 貯蔵庫
+    ┃  ┣ data           : データセット
+    ┃  ┗ figure         : 出力画像    
     ┃ 
     ︙
     ┗README.md
