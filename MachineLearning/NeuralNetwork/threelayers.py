@@ -1,37 +1,36 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import datasets
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+import sys, os
+sys.path.append('/Users/kiwamizamurai/Desktop/gits/MiidasResearch/')
+from pathlib import Path
+from config import config
 
-iris = datasets.load_iris()
-X = iris.data
-y = iris.target.reshape(-1, 1)
-
-label = y
-for i in range(len(label)):
-    if label[i] == 2:
-        label[i] = 0
-
+fig_dir_path = Path(config.fig_dir_path)
 
 
 class NeuralNetwork:
-    def __init__(self, x, y):
+    def __init__(self, x, y, hn):
         self.input = x
-        self.weights1 = np.random.rand(self.input.shape[1], 4)
-        self.weights2 = np.random.rand(4, 1)
+        self.weights1 = np.random.rand(self.input.shape[1], hn)
+        self.weights2 = np.random.rand(hn, 1)
         self.y = y
-        #self.output = np.zeros(y.shape)
 
     @staticmethod
     def sigmoid(x, deriv=False):
         if deriv == False:
             return 1 / (1 + np.exp(-x))
         if deriv == True:
-            return (1 / (1 + np.exp(-x))) * (1 - (1 / (1 + np.exp(-x))))
+            return x * (1-x)
 
     def feedforward(self):
         self.layer1 = self.sigmoid(np.dot(self.input, self.weights1))
         self.output = self.sigmoid(np.dot(self.layer1, self.weights2))
         return self.output
+
+    def loss(self):
+        return np.mean(np.square(self.y - self.feedforward()))
 
     def backprop(self):
         eps = 0.005
@@ -41,6 +40,9 @@ class NeuralNetwork:
         self.weights1 -= eps * d_weights1
         self.weights2 -= eps * d_weights2
 
+    def accuracy(self):
+        return np.sum(np.where(self.predict(self.input) == self.y, 1, 0))/len(self.y)
+
     def train(self):
         self.output = self.feedforward()
         self.backprop()
@@ -48,22 +50,33 @@ class NeuralNetwork:
     def predict(self, data):
         self.layer1 = self.sigmoid(np.dot(data, self.weights1))
         pred = self.sigmoid(np.dot(self.layer1, self.weights2))
-        return pred
+        return np.where(pred < 0.5, 0.0, 1.0)
 
-NN = NeuralNetwork(X, y)
+
+
+iris = load_iris()
+X = iris.data[:100, :]
+y = iris.target[:100]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+
+NN = NeuralNetwork(X_train, y_train.reshape(-1, 1), 9)
 
 loss = []
-for i in range(5000):
+for i in range(200):
     NN.train()
-    loss.append(round(np.mean(np.square(y - NN.feedforward())), 3))
+    print('iter: {}'.format(i),', Accuracy: ', NN.accuracy())
+    loss.append(NN.loss())
 
-plt.figure()
-plt.plot(range(len(loss)), loss)
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(range(len(loss)), loss)
+ax.set_title('objective function')
+ax.set_xlabel('iteration')
+ax.set_ylabel('cost')
+#plt.show()
 
-print(y[3])
-print(NN.predict(X[3]))
+print('Pred: ', NN.predict(X[4]), ', Label: ', y[4])
 
-print(y[83])
-print(NN.predict(X[83]))
-
-plt.show()
+name = fig_dir_path / "3layer.png"
+plt.savefig(name)
