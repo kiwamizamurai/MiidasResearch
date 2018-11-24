@@ -12,7 +12,7 @@ fig_dir_path = Path(config.fig_dir_path)
 # m is slope, b is y-intercept
 
 N = 100
-x = 3 * np.random.rand(N, 1) 
+x = 3 * np.random.rand(N, 1)
 y = 3 * x - 4 * np.ones_like(x) + 0.5 *  np.random.rand(N, 1)
 
 param = np.random.rand(2)
@@ -60,7 +60,7 @@ ax2.scatter(3, -4, c='r')
 ax2.set_xlabel('m')
 ax2.set_ylabel('b')
 
-plt.show()
+#plt.show()
 
 name = fig_dir_path / "linearegression.png"
-#plt.savefig(name)
+plt.savefig(name)
